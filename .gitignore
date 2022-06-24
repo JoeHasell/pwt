@@ -1,0 +1,8 @@
+# Ignore notebooks
+*.ipynb
+
+# Ignore checkpoints
+.ipynb_checkpoints
+
+# Ignore Mac system files
+.DS_store
