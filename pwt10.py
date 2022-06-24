@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py:light,md
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -12,6 +12,22 @@
 #     language: python
 #     name: python3
 # ---
+
+#
+
+# Provide dataset metadata (as specified in Grapher Admin)
+datasetName = "Penn World Tables version 10.0"
+datasetSourceName = "Penn World Tables..."
+datasetLink = "https://www.rug.nl/ggdc/productivity/pwt"
+datasetDescription = "PWT version 10.0 is a database with information on relative levels of income, output, input and productivity, covering 183 countries between 1950 and 2019."
+
+
+# Print the metadata
+print("Source: " + source)
+print("Link: " + datasetLink)
+print("Description: " + datasetDescription)
+
+# # PabloA's version below -------
 
 # # Penn World Table dataset
 
