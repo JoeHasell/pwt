@@ -13,19 +13,132 @@
 #     name: python3
 # ---
 
+# *This article describes the data in the Penn World Tables version 10.0 and documents how Our World in Data have handled and transformed this data in order to make use of it in our publication.*
 #
+# *This article is an unsual, experimental format, which we have designed to make our data work more transparent and reusable.*
+#
+# *To prepare the data for use in our publication we write and then execute a computer programme. Within that computer programme we include extensive notes, explanations and visualizations to make any choices concerning the treatment of the data more visible and to explain our reasoning. This article is a web version of that computer programme in which priority is given to the notes and explanations and much of the code is hidden or not shown to improve readability. You can read this article whether or not you are familiar with (python) code in order to understand more about the Penn World Tables and our treatment of the data.*
+#
+# *The full code we use to prepare this data can be found in GitHub.*
+
+# ## About this data
+
+# *JH comment: My idea here is that we show here the metadata as in our database (and Sources tab). Possibly we could **specifiy** the metadata here? (We write it here, and then when you run the script it's these fields that end up in the database/grapher admin.
 
 # Provide dataset metadata (as specified in Grapher Admin)
 datasetName = "Penn World Tables version 10.0"
-datasetSourceName = "Penn World Tables..."
+datasetSourceName = "Penn World Tables"
 datasetLink = "https://www.rug.nl/ggdc/productivity/pwt"
 datasetDescription = "PWT version 10.0 is a database with information on relative levels of income, output, input and productivity, covering 183 countries between 1950 and 2019."
+datasetRetrieved = "XX June 2022"
+datasetNextUpdateExpected = "Unknown"
 
 
 # Print the metadata
-print("Source: " + source)
+print("Name: " + datasetName)
+print("Source: " + datasetSourceName)
 print("Link: " + datasetLink)
 print("Description: " + datasetDescription)
+print("Last updated: " + datasetRetrieved)
+print("Expected data of next update: " + datasetNextUpdateExpected)
+
+# + [markdown] tags=[]
+# #### **All charts using this data**
+# -
+
+# *JH comment: I don't know whether it would be possible to add some query here to produce an up-to-date list?*
+
+# + [markdown] tags=[]
+# ## Details about how we obtained the original data file and the intial steps we take to load and clean it
+# -
+
+# *JH comment: The idea is to give a breakdown of the etl stages, but with plain English description of what is going on. These section will be collapsed by default.*
+#
+# *Note that here I am just loading an Excel file from GitHub that was manually downloaded. But in the future this could refer to the first etl step.*
+
+# ### Details of which libraries and packages we use to prepare the data
+
+# +
+# Pandas is the standard package used for data manipulation in python code
+import pandas as pd
+
+# This package allows us to import the original Excel file via a URL
+import requests
+
+# Pathlib is a standard package for making it easier to work with file paths
+from pathlib import Path
+
+# Seaborn is a Python data visualization library (based on matplotlib)
+import seaborn as sns
+
+# NumPy is a standard package that provides a range of useful mathematical functions 
+import numpy as np
+
+# Plotly is a package for creating interactive charts
+import plotly.express as px
+import plotly.io as pio
+# -
+
+# ### Details of how OWID obtained a copy of the data
+
+# ### Details of how we initially load the data 
+
+# +
+#This is the location of the original Excel file
+url = 'https://raw.githubusercontent.com/owid/notebooks/main/PabloArriagada/pwt/data/pwt100.xlsx'
+
+#This is how we load it 
+
+r = requests.get(url)
+open('temp.xls', 'wb').write(r.content)
+pwt10 = pd.read_excel('temp.xls', sheet_name='Data')
+
+# -
+
+# ### Details of how we standardize the names of countries and world regions
+
+# *JH comment: Let's do this step here early on – as it would be in the etl process*
+
+# ## Details of each variable we have prepared from Penn World Tables version 10
+
+# *JH comment: I am adapting the text from [Diana's Google Doc](https://docs.google.com/document/d/1Kg9ZqxXXfDWA7WxfDysB0GjwlQ6kK5x6kNP-m7Sjl-I/edit?pli=1#heading=h.3iglji7a4k32)*
+
+# ### Real GDP, employment and population levels
+
+# *JH comment: See my comment at the top of this doc about the Dataset-level metadata. Maybe we can define the variable-level metadata in a way that's helpful. For instance, below I make a set of ordered arrays that provide the metadata for for each variable. The idea is that this will be passed to the database/garpher admin. But we can also use to e.g. make the title of subsections. In that way the titles and the variable name will always be linked. 
+
+#Initialize empty arrays for variable-level metadata
+variableNames = []
+variableDisplayNames = []
+variableUnitLongs = []
+variableUnitShorts = []
+variableDescription = []
+
+# Append metadata for this variable to the arrays
+variableNames = np.append(variableNames,["Expenditure-side real GDP at chained PPPs"])
+variableDisplayNames = np.append(variableDisplayNames,["Expenditure-side real GDP"])
+variableUnitLongs = np.append(variableUnitLongs,["International-$ at 2017 prices"])
+variableUnitShorts = np.append(variableUnitShorts,["$"])
+variableDescription = np.append(variableDescription,["An estimate of GDP based on expenditure data (rather than production). ‘Real’ GDP means GDP has been adjusted for inflation. Chained PPPs prices take a weighted basket of goods that changes year-by-year to better reflect consumer spending decisions.  Real (i.e. inflation adjusted) GDP is useful in reflecting the standard of living in an economy rather than the economy’s production possibilities. This variable is useful for comparing standards of living across countries, over time."])
+
+
+# Print display name of current variable. It would be great if we could figure out a way to render this as a html heading...
+variableDisplayNames[len(variableDisplayNames)-1]
+
+# + [markdown] tags=[]
+# ##### About this variable
+# -
+
+variableDescription[len(variableDescription)-1]
+
+# ##### How did we obtain this variable from the original data?
+
+# **Original variable name within PWT:** rgdpe
+
+# The original data is given in millions of dollars. We multiply the variable by 1,000,000 to give the figures in dollars.
+
+pwt10['rgdpe'] = pwt10['rgdpe']*1000000
+
 
 # # PabloA's version below -------
 
