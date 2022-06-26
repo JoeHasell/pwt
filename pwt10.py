@@ -103,9 +103,7 @@ pwt10 = pd.read_excel('temp.xls', sheet_name='Data')
 
 # *JH comment: I am adapting the text from [Diana's Google Doc](https://docs.google.com/document/d/1Kg9ZqxXXfDWA7WxfDysB0GjwlQ6kK5x6kNP-m7Sjl-I/edit?pli=1#heading=h.3iglji7a4k32)*
 
-# ### Real GDP, employment and population levels
-
-# *JH comment: See my comment at the top of this doc about the Dataset-level metadata. Maybe we can define the variable-level metadata in a way that's helpful. For instance, below I make a set of ordered arrays that provide the metadata for for each variable. The idea is that this will be passed to the database/garpher admin. But we can also use to e.g. make the title of subsections. In that way the titles and the variable name will always be linked. 
+# *JH comment: See my comment at the top of this doc about the Dataset-level metadata. Maybe we can define the variable-level metadata in a way that's helpful. For instance, below I make a set of ordered arrays that provide the metadata for for each variable. The idea is that this will be passed to the database/garpher admin. But we can also use to e.g. make the title of subsections. In that way the titles and the variable name will always be linked.*
 
 #Initialize empty arrays for variable-level metadata
 variableNames = []
@@ -114,12 +112,33 @@ variableUnitLongs = []
 variableUnitShorts = []
 variableDescription = []
 
+# ### GDP
+
+# *JH comment: Here let's explain the different approaches to prices that define the different GDP variables.*
+#
+# *The point it if you want to compare across countries and over time then you can't have everything:*
+# *"Diewert (1999) and Van
+# Veelen (2002) have argued that no multilateral measure of real GDP can satisfy all the axioms
+# we might like, so there are tradeoffs involved with any construction of this concept."*
+#
+# *PWT provide different measures for different purposes, in two different dimensions:*
+#
+# *1. Expenditure vs Output side*
+# *2. constant vs current prices vs NA growth rates
+#
+# *The issue with the (1) is – which prices do you look at?*
+# *The issue with (2) is How do you handle changing price structures over time if you want to compare across countries and over time?
+#
+#
+#
+#
+
 # Append metadata for this variable to the arrays
-variableNames = np.append(variableNames,["Expenditure-side real GDP at chained PPPs"])
-variableDisplayNames = np.append(variableDisplayNames,["Expenditure-side real GDP"])
+variableNames = np.append(variableNames,["Real GDP (expenditure-side)"])
+variableDisplayNames = np.append(variableDisplayNames,["Real GDP"])
 variableUnitLongs = np.append(variableUnitLongs,["International-$ at 2017 prices"])
 variableUnitShorts = np.append(variableUnitShorts,["$"])
-variableDescription = np.append(variableDescription,["An estimate of GDP based on expenditure data (rather than production). ‘Real’ GDP means GDP has been adjusted for inflation. Chained PPPs prices take a weighted basket of goods that changes year-by-year to better reflect consumer spending decisions.  Real (i.e. inflation adjusted) GDP is useful in reflecting the standard of living in an economy rather than the economy’s production possibilities. This variable is useful for comparing standards of living across countries, over time."])
+variableDescription = np.append(variableDescription,["[GIVE VARIABLE DESCRIPTION – THIS WILL GO IN THE SOURCES TAB]"])
 
 
 # Print display name of current variable. It would be great if we could figure out a way to render this output as a html heading...
@@ -139,6 +158,19 @@ variableDescription[len(variableDescription)-1]
 
 pwt10['rgdpe'] = pwt10['rgdpe']*1000000
 
+
+# *“real GDP on
+# the output-side”, or real GDPo
+# , which is intended to measure the production possibilities of an
+# economy.*
+
+# ### GDP per capita
+
+# Each GDP variable discussed above is divided by the population figures provided in PWT to produce corresponding series for GDP per capita.
+
+# +
+#Divide by pop...
+# -
 
 # # PabloA's version below -------
 
