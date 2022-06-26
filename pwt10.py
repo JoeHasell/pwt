@@ -122,7 +122,7 @@ variableUnitShorts = np.append(variableUnitShorts,["$"])
 variableDescription = np.append(variableDescription,["An estimate of GDP based on expenditure data (rather than production). ‘Real’ GDP means GDP has been adjusted for inflation. Chained PPPs prices take a weighted basket of goods that changes year-by-year to better reflect consumer spending decisions.  Real (i.e. inflation adjusted) GDP is useful in reflecting the standard of living in an economy rather than the economy’s production possibilities. This variable is useful for comparing standards of living across countries, over time."])
 
 
-# Print display name of current variable. It would be great if we could figure out a way to render this as a html heading...
+# Print display name of current variable. It would be great if we could figure out a way to render this output as a html heading...
 variableDisplayNames[len(variableDisplayNames)-1]
 
 # + [markdown] tags=[]
