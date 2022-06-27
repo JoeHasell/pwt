@@ -65,6 +65,9 @@ import pandas as pd
 # This package allows us to import the original Excel file via a URL
 import requests
 
+# This package allows us to save a temporary file of the orginal data file
+import tempfile
+
 # Pathlib is a standard package for making it easier to work with file paths
 from pathlib import Path
 
@@ -90,10 +93,16 @@ url = 'https://raw.githubusercontent.com/owid/notebooks/main/PabloArriagada/pwt/
 #This is how we load it 
 
 r = requests.get(url)
-open('temp.xls', 'wb').write(r.content)
-pwt10 = pd.read_excel('temp.xls', sheet_name='Data')
+
+tempf = tempfile.TemporaryFile()
+tempf.write(r.content)
+
+pwt10 = pd.read_excel(tempf, sheet_name='Data')
+
 
 # -
+
+pwt10.head()
 
 # ### Details of how we standardize the names of countries and world regions
 
