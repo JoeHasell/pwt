@@ -12,7 +12,7 @@
 #     language: python
 #     name: python3
 # ---
-
+# %%
 # *This article describes the data in the Penn World Tables version 10.0 and documents how Our World in Data have handled and transformed this data in order to make use of it in our publication.*
 #
 # *This article is an unsual, experimental format, which we have designed to make our data work more transparent and reusable.*
@@ -21,10 +21,13 @@
 #
 # *The full code we use to prepare this data can be found in GitHub.*
 
+
+# %%
 # ## About this data
 
 # *JH comment: My idea here is that we show here the metadata as in our database (and Sources tab). Possibly we could **specifiy** the metadata here? (We write it here, and then when you run the script it's these fields that end up in the database/grapher admin.
 
+# %%
 # Provide dataset metadata (as specified in Grapher Admin)
 datasetName = "Penn World Tables version 10.0"
 datasetSourceName = "Penn World Tables"
@@ -33,7 +36,7 @@ datasetDescription = "PWT version 10.0 is a database with information on relativ
 datasetRetrieved = "XX June 2022"
 datasetNextUpdateExpected = "Unknown"
 
-
+# %%
 # Print the metadata
 print("Name: " + datasetName)
 print("Source: " + datasetSourceName)
@@ -42,12 +45,14 @@ print("Description: " + datasetDescription)
 print("Last updated: " + datasetRetrieved)
 print("Expected data of next update: " + datasetNextUpdateExpected)
 
+# %%
 # + [markdown] tags=[]
 # #### **All charts using this data**
 # -
 
 # *JH comment: I don't know whether it would be possible to add some query here to produce an up-to-date list?*
 
+# %%
 # + [markdown] tags=[]
 # ## Details about how we obtained the original data file and the intial steps we take to load and clean it
 # -
@@ -58,6 +63,7 @@ print("Expected data of next update: " + datasetNextUpdateExpected)
 
 # ### Details of which libraries and packages we use to prepare the data
 
+# %%
 # +
 # Pandas is the standard package used for data manipulation in python code
 import pandas as pd
@@ -82,10 +88,12 @@ import plotly.express as px
 import plotly.io as pio
 # -
 
+# %%
 # ### Details of how OWID obtained a copy of the data
-
+# %%
 # ### Details of how we initially load the data 
 
+# %%
 # +
 #This is the location of the original Excel file
 url = 'https://raw.githubusercontent.com/owid/notebooks/main/PabloArriagada/pwt/data/pwt100.xlsx'
@@ -101,11 +109,12 @@ pwt10 = pd.read_excel(tempf, sheet_name='Data')
 
 
 # -
-
+# %%
 pwt10.head()
 
+# %%
 # ### Details of how we standardize the names of countries and world regions
-
+# %%
 # *JH comment: Let's do this step here early on – as it would be in the etl process*
 
 # ## Details of each variable we have prepared from Penn World Tables version 10
@@ -113,16 +122,16 @@ pwt10.head()
 # *JH comment: I am adapting the text from [Diana's Google Doc](https://docs.google.com/document/d/1Kg9ZqxXXfDWA7WxfDysB0GjwlQ6kK5x6kNP-m7Sjl-I/edit?pli=1#heading=h.3iglji7a4k32)*
 
 # *JH comment: See my comment at the top of this doc about the Dataset-level metadata. Maybe we can define the variable-level metadata in a way that's helpful. For instance, below I make a set of ordered arrays that provide the metadata for for each variable. The idea is that this will be passed to the database/garpher admin. But we can also use to e.g. make the title of subsections. In that way the titles and the variable name will always be linked.*
-
+# %%
 #Initialize empty arrays for variable-level metadata
 variableNames = []
 variableDisplayNames = []
 variableUnitLongs = []
 variableUnitShorts = []
 variableDescription = []
-
+# %%
 # ### GDP
-
+# %%
 # *JH comment: Here let's explain the different approaches to prices that define the different GDP variables.*
 #
 # *The point it if you want to compare across countries and over time then you can't have everything:*
@@ -142,6 +151,7 @@ variableDescription = []
 #
 #
 
+# %%
 # Append metadata for this variable to the arrays
 variableNames = np.append(variableNames,["Real GDP (expenditure-side)"])
 variableDisplayNames = np.append(variableDisplayNames,["Real GDP"])
@@ -149,37 +159,41 @@ variableUnitLongs = np.append(variableUnitLongs,["International-$ at 2017 prices
 variableUnitShorts = np.append(variableUnitShorts,["$"])
 variableDescription = np.append(variableDescription,["[GIVE VARIABLE DESCRIPTION – THIS WILL GO IN THE SOURCES TAB]"])
 
-
+# %%
 # Print display name of current variable. It would be great if we could figure out a way to render this output as a html heading...
 variableDisplayNames[len(variableDisplayNames)-1]
 
+# %%
 # + [markdown] tags=[]
 # ##### About this variable
 # -
-
+# %%
 variableDescription[len(variableDescription)-1]
-
+# %%
 # ##### How did we obtain this variable from the original data?
-
+# %%
 # **Original variable name within PWT:** rgdpe
 
 # The original data is given in millions of dollars. We multiply the variable by 1,000,000 to give the figures in dollars.
 
+# %%
 pwt10['rgdpe'] = pwt10['rgdpe']*1000000
 
-
+# %%
 # *“real GDP on
 # the output-side”, or real GDPo
 # , which is intended to measure the production possibilities of an
 # economy.*
-
+# %%
 # ### GDP per capita
-
+# %%
 # Each GDP variable discussed above is divided by the population figures provided in PWT to produce corresponding series for GDP per capita.
-
+# %%
 # +
 #Divide by pop...
 # -
+# %%
+
 
 # # PabloA's version below -------
 
